@@ -1,0 +1,19 @@
+.custom_pagination .my_dropdown{
+    display: none;
+}
+
+.custom_pagination:hover .my_dropdown{
+    display: block;
+}
+.custom_pagination{
+    position: relative;
+}
+.custom_pagination p{
+    position: absolute;
+    top: 4px;
+    right:  30px;
+}
+
+.custom_pagination input{
+    width: 110px;
+}
