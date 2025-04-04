@@ -10,7 +10,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup'
 import './myTable.css'
 import { toast } from 'react-toastify';
-
+import useReponsive from "../../hooks/useReponsive";
 
 interface DataType {
   id: string
@@ -22,15 +22,15 @@ interface DataType {
 }
 
 interface LoadingType {
-  setIsLoading: (value:boolean) => void;
-  
+  setIsLoading: (value: boolean) => void;
+
 }
 
 
 
 
-const MyTable: React.FC<LoadingType> = ({setIsLoading}) => {
- 
+const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
+
 
   // pagination
   const [pageSize, setPageSize] = useState(10);
@@ -42,17 +42,6 @@ const MyTable: React.FC<LoadingType> = ({setIsLoading}) => {
   ///// data
   const [data, setData] = useState<DataType[]>([])
 
-
-  // let data2 = [
-  //   {
-  //     id: "A1",
-  //     name: "Oliver Smith",
-  //     balance: 5.749,
-  //     email: "Oliver@gmail.com",
-  //     registerAt: new Date('2024-09-21T23:59:59Z'),
-  //     active: true
-  //   }
-  // ]
 
   const renderData = () => {
     setIsLoading(true)
@@ -71,29 +60,35 @@ const MyTable: React.FC<LoadingType> = ({setIsLoading}) => {
   }
 
   // columns
+  const { isMobile, isTablet } = useReponsive()
   const columns: TableColumnsType<DataType> = [
     {
       title: 'ID',
       dataIndex: 'id',
+      showSorterTooltip: { target: 'full-header' },
       sorter: (a, b) => a.id.localeCompare(b.id),
+      width: isTablet ? 65 : undefined
     },
     {
       title: 'Name',
       dataIndex: 'name',
       showSorterTooltip: { target: 'full-header' },
-
       sorter: (a, b) => a.name.localeCompare(b.name),
+      width: isMobile ? 82 : undefined
 
     },
     {
       title: 'Balance',
       dataIndex: 'balance',
+      showSorterTooltip: { target: 'full-header' },
       sorter: (a, b) => a.balance - b.balance,
       render: (balance) => `$${balance}`,
+      width: isTablet ? 100 : undefined
     },
     {
       title: 'Email',
       dataIndex: 'email',
+      showSorterTooltip: { target: 'full-header' },
       sorter: (a, b) => a.email.localeCompare(b.email),
       filters: [
         {
@@ -106,30 +101,33 @@ const MyTable: React.FC<LoadingType> = ({setIsLoading}) => {
         },
       ],
       onFilter: (value, record) => record.name.indexOf(value as string) === 0,
+      width: isTablet ? 200 : undefined
     },
     {
       title: 'RegisterAt',
       dataIndex: 'registerAt',
+      showSorterTooltip: { target: 'full-header' },
       sorter: (a, b) => moment(a.registerAt).diff(moment(b.registerAt)),
       render: (ngay) => (
         <Tooltip title={moment.utc(ngay).format('HH:mm:ss')}>
           {moment(ngay).format('yyyy/MM/DD')}
         </Tooltip>
       ),
+      width: isTablet ? 110 : undefined
     },
     {
       title: 'active',
       dataIndex: 'active',
       render: (_, record) => (
         <span>
-          <Button size="small" style={{ marginRight: 8, backgroundColor: "blue", color: "white" }}
+          <Button size="small" className='mr-2 bg-blue-500 text-white  duration-500 border border-blue-500 '
             onClick={() => {
               handelEditUser(record.id)
               setIsModalOpen(true)
             }
             }
           >
-            Edit
+            <i className="fa-solid fa-gear"></i>
           </Button>
 
           <Popconfirm title="Bạn có chắc chắn muốn xóa?"
@@ -151,8 +149,8 @@ const MyTable: React.FC<LoadingType> = ({setIsLoading}) => {
               )
             }}
           >
-            <Button size="small" danger style={{ backgroundColor: "red", color: "white" }}>
-              Delete
+            <Button size="small" className='mr-2 bg-red-500 text-white  duration-500 border border-red-500' >
+              <i className="fa-solid fa-trash"></i>
             </Button>
           </Popconfirm>
         </span>
@@ -257,108 +255,114 @@ const MyTable: React.FC<LoadingType> = ({setIsLoading}) => {
   }, [])
 
   return (
-    <div className='relative' >
+    <>
+      {isMobile ? <div>
+        moble
+        
+      </div> : <div className='my_table relative' >
+        {/* Table */}
+        <Table<DataType>
+          columns={columns}
+          dataSource={data}
+          showSorterTooltip={{ target: 'sorter-icon' }}
+          pagination={{
+            pageSize: pageSize,
+            showSizeChanger: false, //hiển thị ô thay đổi dòng trên trang
+          }}
+          virtual scroll={{ y: 560 }}
+        />
+        {/* Pagination */}
+        <CustomPagination
+          handleSetPage={handlePageSizeChange}  // truyền xuống combonent con để nó thay đổi state(page) ở MyTable
+        />
 
-      <Table<DataType>
-        columns={columns}
-        dataSource={data}
-        showSorterTooltip={{ target: 'sorter-icon' }}
-        pagination={{
-          pageSize: pageSize,
-          showSizeChanger: false, //hiển thị ô thay đổi dòng trên trang
-          hideOnSinglePage: true,
-        }}
-        virtual scroll={{ y: 600 }}
-      />
-      <CustomPagination
-        handleSetPage={handlePageSizeChange}  // truyền xuống combonent con để nó thay đổi state(page) ở MyTable
-      />
+
+        {/* Modal */}
+        <Modal title="USER" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+          <form action="#" onSubmit={handleSubmit}>
+            <div >
+              <InputCustom
+                placeholder="Please enter Id"
+                id="id"
+                label="ID"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.email}
+                touched={touched.email}
+                name="id"
+                value={values.id}
+                type='text'
+                disabled={isDisabled}
+              />
+            </div>
+            <div >
+              <InputCustom
+                placeholder="Please enter Name"
+                id="name"
+                label="Name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.name}
+                touched={touched.name}
+                name="name"
+                value={values.name}
+                type='text'
+              />
+            </div>
+            <div >
+              <InputCustom
+                placeholder="Please enter Balance"
+                id="balance"
+                label="Balance"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.balance}
+                touched={touched.balance}
+                name="balance"
+                value={values.balance}
+                type='number'
+              />
+            </div>
+            <div >
+              <InputCustom
+                placeholder="Please enter Email"
+                id="email"
+                label="Email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.email}
+                touched={touched.email}
+                name="email"
+                value={values.email}
+                type='text'
+              />
+            </div>
+            <div >
+              <InputCustom
+                placeholder="Please enter RegisterAt"
+                id="registerAt"
+                label="RegisterAt"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.registerAt}
+                touched={touched.registerAt}
+                name="registerAt"
+                value={values.registerAt}
+                type='text'
+              />
+            </div>
+
+            {/* button */}
+            <div>
+              <button type="submit" className="w-full text-white bg-black border-black  hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-8 ">Update</button>
+            </div>
+          </form>
+        </Modal>
 
 
+      </div>}
+    </>
 
-      <Modal title="USER" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <form action="#" onSubmit={handleSubmit}>
-          <div >
-            <InputCustom
-              placeholder="Please enter Id"
-              id="id"
-              label="ID"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.email}
-              touched={touched.email}
-              name="id"
-              value={values.id}
-              type='text'
-              disabled={isDisabled}
-            />
-          </div>
-          <div >
-            <InputCustom
-              placeholder="Please enter Name"
-              id="name"
-              label="Name"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.name}
-              touched={touched.name}
-              name="name"
-              value={values.name}
-              type='text'
-            />
-          </div>
-          <div >
-            <InputCustom
-              placeholder="Please enter Balance"
-              id="balance"
-              label="Balance"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.balance}
-              touched={touched.balance}
-              name="balance"
-              value={values.balance}
-              type='number'
-            />
-          </div>
-          <div >
-            <InputCustom
-              placeholder="Please enter Email"
-              id="email"
-              label="Email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.email}
-              touched={touched.email}
-              name="email"
-              value={values.email}
-              type='text'
-            />
-          </div>
-          <div >
-            <InputCustom
-              placeholder="Please enter RegisterAt"
-              id="registerAt"
-              label="RegisterAt"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.registerAt}
-              touched={touched.registerAt}
-              name="registerAt"
-              value={values.registerAt}
-              type='text'
-            />
-          </div>
-
-          {/* button */}
-          <div>
-            <button type="submit" className="w-full text-white bg-black border-black  hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-8 ">Update</button>
-          </div>
-        </form>
-      </Modal>
-      
-
-    </div>
 
   );
 }

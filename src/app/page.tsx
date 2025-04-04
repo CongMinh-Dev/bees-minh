@@ -16,10 +16,10 @@ export default function Home() {
 
   // Loading
   const [isLoading, setIsLoading] = useState(true); // State lưu trữ chế độ
-  const handleSetIsLoading=(isloading2:boolean) => {
+  const handleSetIsLoading = (isloading2: boolean) => {
     setIsLoading(isloading2)
   }
-  
+
 
   return (
     <ConfigProvider theme={{
@@ -29,10 +29,13 @@ export default function Home() {
         <ToastContainer autoClose={2000} />
 
         <div className="flex justify-end ">
-          <Button className="my-3 mr-3 bg-slate-400">
-            <Link href={"/func"}>Logic Test</Link>
-          </Button>
-          <Button onClick={toggleDarkMode} className="my-3  mr-3 bg-slate-400">
+          <Link href={"/func"}>
+            <Button className="my-3 mr-3 bg-slate-400 text-white ">
+              Logic Test
+            </Button>
+          </Link>
+
+          <Button onClick={toggleDarkMode} className="my-3  mr-3 bg-slate-400  text-white">
             {isDarkMode ? "Light Mode" : "Dark Mode"}
           </Button>
         </div>
