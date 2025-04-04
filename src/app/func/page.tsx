@@ -1,22 +1,119 @@
-import processWithDelay from "../components/Count/Count";
+'use client';
+import { useState } from "react";
+import InputCustom from "../components/Input/InputCustom";
+let isStopped = false
 
-export default function page() {
- 
+export default function Page() {
+    const [data, setData] = useState("");
+    const [textareaValue, setTextareaValue] = useState('');
+    const [secondNumber, setSecondNumber] = useState(1);
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const handleTextareaChange = (e: any) => {
+        setTextareaValue(e.target.value);
+    };
+    const handleSecondChange = (e: any) => {
+        setSecondNumber(e.target.value);
+    };
 
 
 
-    processWithDelay([10,20], 1)
-        .then((result:any) => {
-            console.log(result.message);
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        isStopped = false
+        setIsProcessing(true);
+        setData("");
+        const arrayNumber = textareaValue.split(",").map((item) => Number(item.trim()));
+        let dataString: string = ""
+
+         
+         const secondNumberClone=secondNumber*1
+        processWithDelay(arrayNumber, secondNumberClone, (number: number) => {
+            dataString += number.toString() + ","
+            setData(dataString);
+
         })
-        .catch((error) => console.error("Lỗi:", error.message));
+            .then(() => {   
+                setData((prevData) => `${prevData} Done`);
+                setIsProcessing(false);
+            })
+            .catch((error) => {
+                console.error("Error:", error.message);
+                setData(error.message);
+                setIsProcessing(false);
+                isStopped = false;
+
+            });
+    };
+
+    async function processWithDelay(
+        numbersArray: number[],
+        delayTime: number,
+        onProcess: (number: number) => void,
+
+    ): Promise<void> {
+        if (!Array.isArray(numbersArray)) {
+            return Promise.reject(new Error("First Argument must be Array"));
+        }
+        if (numbersArray.some(isNaN)) {
+            return Promise.reject(new Error("First Argument must be a number array."));
+        }
+        if (numbersArray.length === 0) {
+            return Promise.resolve();
+        }
+        if (delayTime == 0 || typeof delayTime !== 'number' || delayTime < 0) {
+            return Promise.reject(new Error(" Seccond Argument must be > 0"));
+        }
+        if (!delayTime) {
+            return Promise.reject(new Error("Missing seccond Argument"));
+        }
+        for (let i = 0; i < numbersArray.length; i++) {
+            if (isStopped == false) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                onProcess(numbersArray[i]);
+            } else { return }
+
+
+        }
+
+    }
 
 
 
+    return (
+        <div className="func">
+            <form onSubmit={handleSubmit} className="flex flex-col items-center">
+                <div className="w-[50%] ">
+                    <label htmlFor="textArea" className="w-full mt-4 font-bold cursor-pointer block">Please enter numbers. (example: 10,25,28,26) </label>
+                    <textarea id="textArea" value={textareaValue} onChange={handleTextareaChange} className="w-full h-[200px] bg-gray-100 border mt-4 p-3" />
+                </div>
 
-    return <div>
-        helo
-    </div>
+                <label htmlFor="second" className="mt-4 font-bold cursor-pointer ">Second Number To Delay (s) </label>
+                <InputCustom id="second" name="second" type="number"  value={secondNumber} onChange={handleSecondChange} />
+                <div className="flex w-1/2 justify-center space-x-2 my-2">
+                    <button type="submit" disabled={isProcessing} className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] py-3 px-5">
+                        {isProcessing ? "In Processing..." : "Do"}
+                    </button>
+                    <button type="button" className="bg-red-600 hover:bg-red-800 border rounded-[10px] py-3 px-5" onClick={
+                        () => {
+                            isStopped = true
+                        }
+
+                    }>Stop</button>
+
+                </div>
+                {/* out put */}
+                <div className="w-[50%] ">
+                    <label htmlFor="outPut" className="w-full mt-4 font-bold cursor-pointer block">Out Put Of Func ProcessWithDelay</label>
+                    <textarea id="outPut" value={data} className="w-full h-[200px] bg-gray-100 border mt-4 p-3" disabled />
+                </div>
+            </form> 
+
+           
 
 
+
+        </div>
+    );
 }
+

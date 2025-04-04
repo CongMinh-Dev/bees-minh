@@ -5,6 +5,9 @@
 .custom_pagination:hover .my_dropdown{
     display: block;
 }
+.custom_pagination:hover p{
+    top: 26.0px;
+}
 .custom_pagination{
     position: relative;
 }
@@ -16,4 +19,10 @@
 
 .custom_pagination input{
     width: 110px;
+}
+
+.custom_pagination{
+    position: absolute;
+    bottom: 16.0px;
+    right: 28.0px;
 }

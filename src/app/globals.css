@@ -75,7 +75,7 @@
   }
   body{
     box-sizing: border-box;
-    background-color: rgba(249, 251, 252, 1);
+    /* background-color: rgba(249, 251, 252, 1); */
     font-size: 14px;
     font-family: Raleway;
     

@@ -3,7 +3,7 @@ import { Select, Input, Form } from 'antd';
 import { useState } from 'react';
 import "./customPagination.css"
 
-import { DownOutlined, SettingOutlined } from '@ant-design/icons';
+import { UpOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 
@@ -11,7 +11,7 @@ interface CustomPaginationProps {
     handleSetPage: (value: number) => void;
 }
 
-const CustomPagination: React.FC<CustomPaginationProps> = ({  handleSetPage }) => {
+const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) => {
 
     const [valueInput, setValueInput] = useState(10);
     const handleInputChange = (event: any) => {
@@ -20,7 +20,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({  handleSetPage }) =
     };
     const handleSetPageE = (e: any) => {
         handleSetPage(e.target.value);
-        
+
     }
 
 
@@ -30,28 +30,32 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({  handleSetPage }) =
         {
             key: '1',
             label: '10/page',
-            onClick: () => { handleSetPage(10)
+            onClick: () => {
+                handleSetPage(10)
             }
 
         },
         {
             key: '2',
             label: '20/page',
-            onClick: () => { handleSetPage(20)
+            onClick: () => {
+                handleSetPage(20)
             }
 
         },
         {
             key: '3',
             label: '50/page',
-            onClick: () => { handleSetPage(50)
+            onClick: () => {
+                handleSetPage(50)
             }
 
         },
         {
             key: '4',
             label: '100/page',
-            onClick: () => { handleSetPage(100)
+            onClick: () => {
+                handleSetPage(100)
             }
 
         },
@@ -60,6 +64,14 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({  handleSetPage }) =
     return (
         <Form layout="inline" className='custom_pagination'>
             <Form.Item >
+                <Dropdown className='my_dropdown' menu={{ items }} placement='top'  >
+                    <a onClick={(e) => e.preventDefault()}>
+                        <Space>
+                            Choose page
+                            <UpOutlined />
+                        </Space>
+                    </a>
+                </Dropdown>
                 <Input
                     type="number"
                     // value={customPageSize}
@@ -71,14 +83,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({  handleSetPage }) =
 
                 <p >/page</p>
 
-                <Dropdown className='my_dropdown' menu={{ items }}>
-                    <a onClick={(e) => e.preventDefault()}>
-                        <Space>
-                            Choose page
-                            <DownOutlined />
-                        </Space>
-                    </a>
-                </Dropdown>
+
             </Form.Item>
 
 
