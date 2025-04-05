@@ -29,7 +29,7 @@ export default function Home() {
       <main className={`${isDarkMode ? "bg-gray-950" : "bg-[rgba(249, 251, 252, 1)]"}  ${!isMobile ? "h-[100vh]" : ""}    mx-[10px] `}>
         <ToastContainer autoClose={2000} />
 
-        {isMobile ? <div className={` ${isDarkMode ? "bg-gray-950" : "bg-whtie"}  mx-3  mr-[200px]    bg_mobile_mode`}>
+        {isMobile ? <div className={` ${isDarkMode ? "bg-gray-950" : "bg-white"}  mx-3     bg_mobile_mode`}>
           <div className="flex justify-end  my_mobile_mode">
             <Link href={"/func"}>
               <Button className="my-3 mr-3 bg-slate-400 text-white ">
