@@ -6,6 +6,7 @@ import { ConfigProvider, theme, Button } from "antd";
 import { useState } from "react";
 import Link from "next/link";
 import Loading from "./components/Loading/Loading";
+import useReponsive from "./hooks/useReponsive";
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false); // State lưu trữ chế độ
@@ -20,7 +21,7 @@ export default function Home() {
     setIsLoading(isloading2)
   }
 
-
+  const { isMobile } = useReponsive()
   return (
     <ConfigProvider theme={{
       algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
@@ -28,7 +29,7 @@ export default function Home() {
       <main className={`${isDarkMode ? "bg-gray-950" : "bg-[rgba(249, 251, 252, 1)]"} h-[100vh]  mx-[10px] `}>
         <ToastContainer autoClose={2000} />
 
-        <div className="flex justify-end  my_mode">
+        {isMobile ? <div className="flex justify-end  my_mobile_mode">
           <Link href={"/func"}>
             <Button className="my-3 mr-3 bg-slate-400 text-white ">
               Logic Test
@@ -38,7 +39,19 @@ export default function Home() {
           <Button onClick={toggleDarkMode} className="my-3  mr-3 bg-slate-400  text-white">
             {isDarkMode ? "Light Mode" : "Dark Mode"}
           </Button>
-        </div>
+        </div> : <div className="flex justify-end  my_mode">
+          <Link href={"/func"}>
+            <Button className="my-3 mr-3 bg-slate-400 text-white ">
+              Logic Test
+            </Button>
+          </Link>
+
+          <Button onClick={toggleDarkMode} className="my-3  mr-3 bg-slate-400  text-white">
+            {isDarkMode ? "Light Mode" : "Dark Mode"}
+          </Button>
+        </div>}
+
+
 
         <MyTable setIsLoading={handleSetIsLoading} />
         <Loading isloading={isLoading} />

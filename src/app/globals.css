@@ -82,6 +82,7 @@
   
 
 }
+
 @layer components{
 .my_mode{
   position: absolute;
@@ -89,7 +90,14 @@
   right: 0;
   z-index: 1;
 }
-
+.my_mobile_mode{
+  position: fixed;
+  top: 0px;
+  left: 33.0px;
+  z-index: 1;
 }
+}
+
+
 
 

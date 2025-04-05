@@ -6,7 +6,12 @@
   color: black; 
   opacity: 0.5; 
 }
-
+.my_mobile_search{
+  position: fixed;
+  top: 40.0px;
+  left: 33.0px;
+  z-index: 1;
+}
 
 .mobile_user {
     width: 100%;
@@ -15,6 +20,7 @@
     justify-content: space-around;
     /* -ms-flex-wrap: wrap; */
     flex-wrap: wrap;
+    margin-top: 100px;
   }
   .card_user {
     width: 300px;

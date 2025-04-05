@@ -30,8 +30,6 @@ interface LoadingType {
 
 
 const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
-
-
   // pagination
   const [pageSize, setPageSize] = useState(10);
   const handlePageSizeChange = (value: number) => {
@@ -292,7 +290,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       {isMobile ? <div>
         {/* <768 */}
         {/* search  */}
-        <div className='flex w-[155px] justify-start items-center my_search my-2'>
+        <div className='flex w-[155px] justify-start items-center my_mobile_search my-2 '>
           <Input name='' type='' value={valueSearch} className='w-[95%]   h-[38px] bg-gray-200' placeholder='Enter name'
             onChange={(e) => {
               setValueSearch(e.target.value)
