@@ -31,7 +31,6 @@ const InputCustom: React.FC<CustomInputProps> = ({
   type = "text",
   disabled,
 }) => {
-  // id, label, placeholder sẽ khác nhau giữa các input
 
   return (
     

@@ -10,9 +10,6 @@ export default function Page() {
     const [secondNumber, setSecondNumber] = useState(1);
     const [isProcessing, setIsProcessing] = useState(false);
 
-    // const handleTextareaChange:React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    //     setTextareaValue(e.target.value);
-    // };
     const handleSecondChange:React.ChangeEventHandler<HTMLInputElement>  = (e) => {
         setSecondNumber(Number(e.target.value));
     };

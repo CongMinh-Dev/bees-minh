@@ -83,7 +83,6 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
                 </Dropdown>
                 <Input
                     type="number"
-                    // value={customPageSize}
                     value={valueInput}
                     onPressEnter={handlePressEnter}
                     onChange={handleInputChange}
