@@ -170,17 +170,14 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true);
   const handleOk = () => {
     setIsModalOpen(false);
     setIsAddUser(false)
-    setIsDisabled(true)
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     setIsAddUser(false)
-    setIsDisabled(true)
   };
 
   // //edit 
@@ -238,7 +235,6 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             .then(() => {
               setIsAddUser(false)
               setIsModalOpen(false)
-              setIsDisabled(true)
               renderData()
               toast("Add Success", {
                 className: 'bg-blue-300 text-white',
@@ -246,7 +242,6 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             }
             )
             .catch((err) => {
-              setIsDisabled(true)
               setIsLoading(false)
               setIsAddUser(false)
               toast("Add Fail", {
@@ -316,7 +311,6 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
     setFieldValue("id", "1");
     setIsAddUser(true)
     setIsModalOpen(true)
-    setIsDisabled(false)
   }
 
   useEffect(() => {
