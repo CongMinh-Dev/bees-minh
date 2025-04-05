@@ -1,5 +1,5 @@
 // 'use client'
-import {  Input, Form } from 'antd';
+import { Input, Form } from 'antd';
 import { useState } from 'react';
 import "./customPagination.css"
 
@@ -14,14 +14,17 @@ interface CustomPaginationProps {
 const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) => {
 
     const [valueInput, setValueInput] = useState(10);
-    const handleInputChange = (event: any) => {
-        setValueInput(event.target.value)
-
+    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ( e) => {
+        setValueInput( Number(e.target.value));
     };
-    const handleSetPageE = (e: any) => {
-        handleSetPage(e.target.value);
+    
 
+    let handlePressEnter:React.KeyboardEventHandler<HTMLInputElement>=(e) => {
+        if (e.key === 'Enter') {
+            handleSetPage(valueInput); 
+          }
     }
+    
 
 
 
@@ -51,7 +54,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
             onClick: () => {
                 handleSetPage(50)
                 setValueInput(50)
-              
+
             }
 
         },
@@ -82,7 +85,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
                     type="number"
                     // value={customPageSize}
                     value={valueInput}
-                    onPressEnter={handleSetPageE}
+                    onPressEnter={handlePressEnter}
                     onChange={handleInputChange}
 
                 />

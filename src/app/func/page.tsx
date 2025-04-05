@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import {  useState } from "react";
 import InputCustom from "../components/Input/InputCustom";
 import Link from "next/link";
 let isStopped = false
@@ -10,16 +10,16 @@ export default function Page() {
     const [secondNumber, setSecondNumber] = useState(1);
     const [isProcessing, setIsProcessing] = useState(false);
 
-    const handleTextareaChange = (e: any) => {
-        setTextareaValue(e.target.value);
+    // const handleTextareaChange:React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    //     setTextareaValue(e.target.value);
+    // };
+    const handleSecondChange:React.ChangeEventHandler<HTMLInputElement>  = (e) => {
+        setSecondNumber(Number(e.target.value));
     };
-    const handleSecondChange = (e: any) => {
-        setSecondNumber(e.target.value);
-    };
 
 
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         isStopped = false
         setIsProcessing(true);
@@ -103,7 +103,10 @@ export default function Page() {
             <form onSubmit={handleSubmit} className="flex flex-col items-center">
                 <div className="w-[50%] ">
                     <label htmlFor="textArea" className="w-full mt-4 font-bold cursor-pointer block">Please enter numbers. (example: 10,25,28,26) </label>
-                    <textarea id="textArea" value={textareaValue} onChange={handleTextareaChange} className="w-full h-[150px] bg-gray-100 border mt-4 p-3" />
+                    <textarea id="textArea" value={textareaValue} onChange={(e) => {
+                      setTextareaValue(e.target.value);
+                    }
+                    } className="w-full h-[150px] bg-gray-100 border mt-4 p-3" />
                 </div>
 
                 <label htmlFor="second" className="mt-4 font-bold cursor-pointer ">Second Number To Delay (s) </label>

@@ -18,7 +18,7 @@ interface DataType {
   balance: number
   email: string
   registerAt: Date
-  active: Boolean
+  active: boolean
 }
 
 interface LoadingType {
@@ -34,7 +34,13 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
   // pagination
   const [pageSize, setPageSize] = useState(10);
-  const handlePageSizeChange = (value: any) => {
+  const handlePageSizeChange = (value: number) => {
+    if (value == 0) {
+      toast("Amount of row must be > 0", {
+        className: 'bg-red-300 text-white',
+      })
+      return
+    }
     setPageSize(value);
   };
 
@@ -173,7 +179,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled] = useState(true);
 
 
 
@@ -304,6 +310,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             <Card
               className="card_user"
               title={<h5 className="uppercase">{item.name}</h5>}
+              key={item.id}
 
             >
               {/* id */}
