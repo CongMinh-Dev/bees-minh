@@ -1,9 +1,9 @@
 ## Introduction:
 
-In my project, I am using: Next.js, TypeScript, Ant Design, Tailwind CSS, Public API (MockkAPI) and more:
-Yup for validating the format of user input data.
-Moment.js for formatting dates and times (year, month, day, etc.).
-React Toastify for displaying success or failure notifications for user actions.
+In my project, I am using: Next.js, TypeScript, Ant Design, Tailwind CSS, Public API (MockkAPI) and more:  
+Yup for validating the format of user input data.  
+Moment.js for formatting dates and times (year, month, day, etc.).  
+React Toastify for displaying success or failure notifications for user actions.  
 
 ## Link:
 
