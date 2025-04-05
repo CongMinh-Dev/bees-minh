@@ -46,7 +46,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
     setIsLoading(true)
     http.get("/todos")
       .then((res) => {
-        setData(res.data)
+        setData(res.data.reverse())
         setIsLoading(false)
       })
       .catch((err) => {
@@ -59,7 +59,9 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
   const { isMobile, isTablet } = useReponsive()
   // columns--- data filter email
   const emailArrayClone: string[] = []
+  const AllEmailArray: string[] = []
   data?.forEach((item) => {
+    AllEmailArray.push(item.email)
     const emailDomainClone = item.email.slice(item.email.indexOf("@"))
     if (emailArrayClone.indexOf(emailDomainClone) == -1) {
       emailArrayClone.push(emailDomainClone)
@@ -112,7 +114,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       render: (text) => <a href='#' target='_blank' className='text-blue-400 hover:text-blue-700' >{text}</a>,
     },
     {
-      title: 'RegisterAt',
+      title: 'Registertration',
       dataIndex: 'registerAt',
       showSorterTooltip: { target: 'full-header' },
       sorter: (a, b) => moment(a.registerAt).diff(moment(b.registerAt)),
@@ -168,15 +170,19 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
   const handleOk = () => {
     setIsModalOpen(false);
+    setIsAddUser(false)
+    setIsDisabled(true)
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsAddUser(false)
+    setIsDisabled(true)
   };
-  
+
   // //edit 
   const [userDetail, setUserDetail] = useState<DataType>()
   const handelEditUser = async (userId: string) => {
@@ -204,7 +210,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
   }, [userDetail]);
 
   // formik
-  const { handleChange, handleSubmit, values, errors, handleBlur, touched, setFieldValue } = useFormik({
+  const { handleChange, handleSubmit, values, errors, handleBlur, touched, setFieldValue, resetForm } = useFormik({
     initialValues: {
       id: "",
       name: "",
@@ -224,22 +230,55 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       const itemClone = { ...values }
       itemClone.registerAt = utcString
       setIsLoading(true)
-      http.put(`/todos/${itemClone.id}`, itemClone)
-        .then(() => {
-          setIsModalOpen(false)
-          renderData()
-          toast("Update Success", {
-            className: 'bg-blue-300 text-white',
-          })
-        }
-        ).catch((err) => {
+      // update or add
+      if (isAddUser == true) {
+        // add
+        if (AllEmailArray.indexOf(values.email) == -1) {
+          http.post("/todos", itemClone)
+            .then(() => {
+              setIsModalOpen(false)
+              setIsDisabled(true)
+              renderData()
+              toast("Add Success", {
+                className: 'bg-blue-300 text-white',
+              })
+            }
+            )
+            .catch((err) => {
+              setIsDisabled(true)
+              setIsLoading(false)
+              toast("Add Fail", {
+                className: 'bg-red-300 text-white',
+              })
+              console.log(err)
+            }
+            )
+        } else {
           setIsLoading(false)
-          toast("Update Fail", {
+          toast("Add Fail, Email already exists", {
             className: 'bg-red-300 text-white',
           })
-          console.log(err)
         }
-        )
+
+      } else {
+        // update
+        http.put(`/todos/${itemClone.id}`, itemClone)
+          .then(() => {
+            setIsModalOpen(false)
+            renderData()
+            toast("Update Success", {
+              className: 'bg-blue-300 text-white',
+            })
+          }
+          ).catch((err) => {
+            setIsLoading(false)
+            toast(`Update Fail `, {
+              className: 'bg-red-300 text-white',
+            })
+            console.log(err)
+          }
+          )
+      }
     },
     validationSchema: yup.object({
       id: yup.string().required("Please do not leave empty.")
@@ -266,6 +305,18 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
     })
   }
+
+  // add user 
+  const [isAddUser, setIsAddUser] = useState(false)
+  const handleAddUser = () => {
+    resetForm()
+    setFieldValue("balance", "");
+    setFieldValue("id", "1");
+    setIsAddUser(true)
+    setIsModalOpen(true)
+    setIsDisabled(false)
+  }
+
   useEffect(() => {
     renderData()
   }, [])
@@ -282,9 +333,14 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             }}
             onPressEnter={handleSearch}
           />
-          <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-5 ml-1 duration-500"
+          {/* button search */}
+          <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-3 ml-1 duration-500"
             onClick={handleSearch}
           ><i className="fa-solid fa-magnifying-glass"></i></button>
+          {/* button add */}
+          <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-3 ml-1 duration-500"
+            onClick={handleAddUser}
+          ><i className="fa-solid fa-user-plus"></i></button>
         </div>
 
         {/* card */}
@@ -378,21 +434,6 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             <form action="#" onSubmit={handleSubmit}>
               <div >
                 <InputCustom
-                  placeholder="Please enter Id"
-                  id="id"
-                  label="ID"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={errors.email}
-                  touched={touched.email}
-                  name="id"
-                  value={values.id}
-                  type='text'
-                  disabled={isDisabled}
-                />
-              </div>
-              <div >
-                <InputCustom
                   placeholder="Please enter Name"
                   id="name"
                   label="Name"
@@ -450,7 +491,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
               {/* button */}
               <div>
-                <button type="submit" className="w-full text-white bg-black border-black  hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-8 ">Update</button>
+                <button type="submit" className="w-full text-white bg-black border-black  hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-8 ">{isAddUser ? "Add" : "Update"} </button>
               </div>
             </form>
           </Modal>
@@ -459,7 +500,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       </div> : <div className='my_table relative' >
         {/* >768 */}
         {/* search  */}
-        <div className='flex w-[200px] justify-start items-center my_search py-2'>
+        <div className='flex w-[230px] justify-start items-center my_search py-2'>
           <Input name='' type='' value={valueSearch} className='w-[95%]   h-[38px] bg-gray-200' placeholder='Enter name'
             onChange={(e) => {
               setValueSearch(e.target.value)
@@ -469,6 +510,10 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
           <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-5 ml-1 duration-500"
             onClick={handleSearch}
           ><i className="fa-solid fa-magnifying-glass"></i></button>
+          {/* button add */}
+          <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-3 ml-1 duration-500"
+            onClick={handleAddUser}
+          ><i className="fa-solid fa-user-plus"></i></button>
         </div>
 
         {/* Table */}
@@ -491,21 +536,6 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
         {/* Modal */}
         <Modal title="USER" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
           <form action="#" onSubmit={handleSubmit}>
-            <div >
-              <InputCustom
-                placeholder="Please enter Id"
-                id="id"
-                label="ID"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.email}
-                touched={touched.email}
-                name="id"
-                value={values.id}
-                type='text'
-                disabled={isDisabled}
-              />
-            </div>
             <div >
               <InputCustom
                 placeholder="Please enter Name"
