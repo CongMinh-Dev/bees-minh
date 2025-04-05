@@ -290,8 +290,8 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       {isMobile ? <div>
         {/* <768 */}
         {/* search  */}
-        <div className='flex w-[155px] justify-start items-center my_mobile_search my-2 '>
-          <Input name='' type='' value={valueSearch} className='w-[95%]   h-[38px] bg-gray-200' placeholder='Enter name'
+        <div className='flex w-[201px] justify-start items-center my_mobile_search my-2 '>
+          <Input name='' type='' value={valueSearch} className='w-[80%]   h-[38px] bg-gray-200 ' placeholder='Enter name'
             onChange={(e) => {
               setValueSearch(e.target.value)
             }}
@@ -303,6 +303,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
           ><i className="fa-solid fa-magnifying-glass"></i></button>
 
         </div>
+
 
         <div className="mobile_user flex flex-wrap">
           {/* card */}

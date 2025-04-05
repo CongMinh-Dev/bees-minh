@@ -96,6 +96,15 @@
   left: 33.0px;
   z-index: 1;
 }
+.bg_mobile_mode{
+  position: fixed;
+  width: 95%;
+  height: 110.0px;
+  top: 0px;
+  left: 0;
+  z-index: 1;
+  
+}
 }
 
 

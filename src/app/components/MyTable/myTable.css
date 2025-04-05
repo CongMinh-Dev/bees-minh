@@ -2,7 +2,7 @@
     margin-left: 120px;
 }
 
-.my_search input::placeholder{
+.my_search input::placeholder, .my_mobile_search input::placeholder{
   color: black; 
   opacity: 0.5; 
 }
@@ -13,6 +13,7 @@
   z-index: 1;
 }
 
+
 .mobile_user {
     width: 100%;
     display: flex;
@@ -20,7 +21,8 @@
     justify-content: space-around;
     /* -ms-flex-wrap: wrap; */
     flex-wrap: wrap;
-    margin-top: 100px;
+    padding-top: 100px;
+    padding-bottom: 20px;
   }
   .card_user {
     width: 300px;
