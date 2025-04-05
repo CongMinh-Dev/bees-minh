@@ -185,8 +185,8 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
     setIsModalOpen(false);
   };
   // //edit 
-  let [userDetail, setUserDetail] = useState<DataType>()
-  let handelEditUser = async (userId: string) => {
+  const [userDetail, setUserDetail] = useState<DataType>()
+  const handelEditUser = async (userId: string) => {
     setIsLoading(true)
     http.get(`/todos/${userId}`)
       .then((res) => {
@@ -350,23 +350,23 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
                   </Button>
 
                   <Popconfirm title="Do you want delete?"
-                  onConfirm={() => {
-                    setIsLoading(true)
-                    http.delete(`/todos/${item.id}`).then(() => {
-                      renderData()
-                      toast("Delete Success", {
-                        className: 'bg-blue-300 text-white',
-                      })
-                    }
-                    ).catch((err) => {
-                      toast("Delete Fail", {
-                        className: 'bg-red-300 text-white',
-                      })
-                      console.log(err)
-                      setIsLoading(false)
-                    }
-                    )
-                  }}
+                    onConfirm={() => {
+                      setIsLoading(true)
+                      http.delete(`/todos/${item.id}`).then(() => {
+                        renderData()
+                        toast("Delete Success", {
+                          className: 'bg-blue-300 text-white',
+                        })
+                      }
+                      ).catch((err) => {
+                        toast("Delete Fail", {
+                          className: 'bg-red-300 text-white',
+                        })
+                        console.log(err)
+                        setIsLoading(false)
+                      }
+                      )
+                    }}
                   >
                     <Button size="small" className='mr-2 bg-red-500 text-white  duration-500 border border-red-500' >
                       <i className="fa-solid fa-trash"></i>

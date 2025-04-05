@@ -3,7 +3,7 @@ import {  Input, Form } from 'antd';
 import { useState } from 'react';
 import "./customPagination.css"
 
-import { UpOutlined, SettingOutlined } from '@ant-design/icons';
+import { UpOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 
