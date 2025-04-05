@@ -478,7 +478,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       </div> : <div className='my_table relative' >
         {/* >768 */}
         {/* search  */}
-        <div className='flex w-[200px] justify-start items-center my_search my-2'>
+        <div className='flex w-[200px] justify-start items-center my_search py-2'>
           <Input name='' type='' value={valueSearch} className='w-[95%]   h-[38px] bg-gray-200' placeholder='Enter name'
             onChange={(e) => {
               setValueSearch(e.target.value)
