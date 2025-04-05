@@ -93,12 +93,13 @@
 .my_mobile_mode{
   position: fixed;
   top: 0px;
-  left: 33.0px;
+  /* left: 33.0px; */
+  left: 4%;
   z-index: 1;
 }
 .bg_mobile_mode{
   position: fixed;
-  width: 95%;
+  width: 100%;
   height: 110.0px;
   top: 0px;
   left: 0;
