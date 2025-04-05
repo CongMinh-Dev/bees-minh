@@ -19,7 +19,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
     };
     
 
-    let handlePressEnter:React.KeyboardEventHandler<HTMLInputElement>=(e) => {
+    const handlePressEnter:React.KeyboardEventHandler<HTMLInputElement>=(e) => {
         if (e.key === 'Enter') {
             handleSetPage(valueInput); 
           }
