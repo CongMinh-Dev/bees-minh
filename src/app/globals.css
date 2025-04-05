@@ -75,7 +75,6 @@
   }
   body{
     box-sizing: border-box;
-    /* background-color: rgba(249, 251, 252, 1); */
     font-size: 14px;
     font-family: Raleway;
     
@@ -83,3 +82,14 @@
   
 
 }
+@layer components{
+.my_mode{
+  position: absolute;
+  top: 0px;
+  right: 0;
+  z-index: 1;
+}
+
+}
+
+

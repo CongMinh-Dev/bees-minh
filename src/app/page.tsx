@@ -25,10 +25,10 @@ export default function Home() {
     <ConfigProvider theme={{
       algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
     }}>
-      <main className={`${isDarkMode ? "bg-gray-950" : "bg-[rgba(249, 251, 252, 1)]"} h-[100vh]  `}>
+      <main className={`${isDarkMode ? "bg-gray-950" : "bg-[rgba(249, 251, 252, 1)]"} h-[100vh]  mx-[10px] `}>
         <ToastContainer autoClose={2000} />
 
-        <div className="flex justify-end ">
+        <div className="flex justify-end  my_mode">
           <Link href={"/func"}>
             <Button className="my-3 mr-3 bg-slate-400 text-white ">
               Logic Test

@@ -109,7 +109,7 @@ export default function Page() {
                 <label htmlFor="second" className="mt-4 font-bold cursor-pointer ">Second Number To Delay (s) </label>
                 <InputCustom id="second" name="second" type="number" value={secondNumber} onChange={handleSecondChange} />
                 <div className="flex w-1/2 justify-center space-x-2 my-2">
-                    <button type="submit" disabled={isProcessing} className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] py-3 px-5 duration-500">
+                    <button type="submit" disabled={isProcessing} className={` ${isProcessing?"bg-blue-100":"hover:bg-blue-800  bg-blue-500" } border rounded-[10px] py-3 px-5 duration-500`}>
                         {isProcessing ? "In Processing..." : "Do"}
                     </button>
                     <button type="button" className="bg-red-600 hover:bg-red-800 border rounded-[10px] py-3 px-5 duration-500" onClick={

@@ -32,6 +32,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
             label: '10/page',
             onClick: () => {
                 handleSetPage(10)
+                setValueInput(10)
             }
 
         },
@@ -40,6 +41,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
             label: '20/page',
             onClick: () => {
                 handleSetPage(20)
+                setValueInput(20)
             }
 
         },
@@ -48,6 +50,8 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
             label: '50/page',
             onClick: () => {
                 handleSetPage(50)
+                setValueInput(50)
+              
             }
 
         },
@@ -56,6 +60,8 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
             label: '100/page',
             onClick: () => {
                 handleSetPage(100)
+                setValueInput(100)
+
             }
 
         },

@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Popconfirm, Table, Tooltip } from 'antd';
+import { Button, Card, Input, Modal, Popconfirm, Table, Tooltip } from 'antd';
 import type { TableColumnsType } from 'antd';
 import moment from 'moment';
 import CustomPagination from '../CustomPagination/CustomPagination';
@@ -59,8 +59,25 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       });
   }
 
-  // columns
+  // columns 
   const { isMobile, isTablet } = useReponsive()
+  // columns--- data filter email
+  const emailArrayClone: string[] = []
+  data?.forEach((item) => {
+    const emailDomainClone = item.email.slice(item.email.indexOf("@"))
+    if (emailArrayClone.indexOf(emailDomainClone) == -1) {
+      emailArrayClone.push(emailDomainClone)
+    }
+  })
+  const emailArray = emailArrayClone?.map((item) => {
+    return {
+      text: item,
+      value: item,
+    }
+  }
+  )
+
+  // columns--- format column
   const columns: TableColumnsType<DataType> = [
     {
       title: 'ID',
@@ -90,18 +107,13 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       dataIndex: 'email',
       showSorterTooltip: { target: 'full-header' },
       sorter: (a, b) => a.email.localeCompare(b.email),
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe',
-        },
-        {
-          text: 'Jim',
-          value: 'Jim',
-        },
-      ],
-      onFilter: (value, record) => record.name.indexOf(value as string) === 0,
-      width: isTablet ? 200 : undefined
+      filters: emailArray,
+      onFilter: (value, record) => {
+
+        return record.email.indexOf(value as string) >= 0
+      },
+      width: isTablet ? 200 : undefined,
+      render: (text) => <a href='#' target='_blank' className='text-blue-400 hover:text-blue-700' >{text}</a>,
     },
     {
       title: 'RegisterAt',
@@ -130,7 +142,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             <i className="fa-solid fa-gear"></i>
           </Button>
 
-          <Popconfirm title="Bạn có chắc chắn muốn xóa?"
+          <Popconfirm title="Do you want delete?"
             onConfirm={() => {
               setIsLoading(true)
               http.delete(`/todos/${record.id}`).then(() => {
@@ -163,9 +175,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -246,6 +256,20 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
 
   })
+  // Search 
+  const [valueSearch, setValueSearch] = useState<string>()
+  const handleSearch = () => {
+    setIsLoading(true)
+    http.get(`/todos?name=${valueSearch}`).then((res) => {
+      setData(res.data)
+      setIsLoading(false)
+
+    }).catch((err) => {
+      console.log(err)
+      setIsLoading(false)
+
+    })
+  }
 
 
 
@@ -254,12 +278,214 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
     renderData()
   }, [])
 
+
   return (
     <>
       {isMobile ? <div>
-        moble
-        
+        {/* <768 */}
+        {/* search  */}
+        <div className='flex w-[155px] justify-start items-center my_search my-2'>
+          <Input name='' type='' value={valueSearch} className='w-[95%]   h-[38px] bg-gray-200' placeholder='Enter name'
+            onChange={(e) => {
+              setValueSearch(e.target.value)
+            }}
+            onPressEnter={handleSearch}
+          />
+
+          <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-5 ml-1 duration-500"
+            onClick={handleSearch}
+          ><i className="fa-solid fa-magnifying-glass"></i></button>
+
+        </div>
+
+        <div className="mobile_user flex flex-wrap">
+          {/* card */}
+          {data?.map((item) => (
+            <Card
+              className="card_user"
+              title={<h5 className="uppercase">{item.name}</h5>}
+
+            >
+              {/* id */}
+              <div>
+                <span className="nameCard">ID:</span>
+                <span className="contentCard font-bold">
+                  {item.id}
+                </span>
+              </div>
+              {/* balance */}
+              <div>
+                <span className="nameCard mr-2">Balance:</span>
+                <span className="contentCard font-bold">
+                  {item.balance}
+                </span>
+              </div>
+              {/* email */}
+              <div>
+                <span className="nameCard mr-2">Email:</span>
+                <span className="contentCard font-bold"> <a href="#" className='text-blue-400 hover:text-blue-700'>{item.email}</a></span>
+              </div>
+              {/* registerAt */}
+              <div>
+                <span className="nameCard">RegisterAt:</span>
+                <span className="contentCard font-bold">
+                  {<Tooltip title={moment.utc(item.registerAt).format('HH:mm:ss')}>
+                    {moment(item.registerAt).format('yyyy/MM/DD')}
+                  </Tooltip>}
+                </span>
+              </div>
+              {/* active */}
+              <div>
+                <span className="nameCard">Active:</span>
+                <span className="contentCard font-bold">
+                  {/* active---buttion edit */}
+                  <Button size="small" className='mr-2 bg-blue-500 text-white  duration-500 border border-blue-500 '
+                    onClick={() => {
+                      handelEditUser(item.id)
+                      setIsModalOpen(true)
+                    }
+                    }
+                  >
+                    <i className="fa-solid fa-gear"></i>
+                  </Button>
+
+                  <Popconfirm title="Do you want delete?"
+                  onConfirm={() => {
+                    setIsLoading(true)
+                    http.delete(`/todos/${item.id}`).then(() => {
+                      renderData()
+                      toast("Delete Success", {
+                        className: 'bg-blue-300 text-white',
+                      })
+                    }
+                    ).catch((err) => {
+                      toast("Delete Fail", {
+                        className: 'bg-red-300 text-white',
+                      })
+                      console.log(err)
+                      setIsLoading(false)
+                    }
+                    )
+                  }}
+                  >
+                    <Button size="small" className='mr-2 bg-red-500 text-white  duration-500 border border-red-500' >
+                      <i className="fa-solid fa-trash"></i>
+                    </Button>
+                  </Popconfirm>
+
+
+
+
+                </span>
+              </div>
+            </Card>
+          ))}
+
+          {/* Modal */}
+          <Modal title="USER" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+            <form action="#" onSubmit={handleSubmit}>
+              <div >
+                <InputCustom
+                  placeholder="Please enter Id"
+                  id="id"
+                  label="ID"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.email}
+                  touched={touched.email}
+                  name="id"
+                  value={values.id}
+                  type='text'
+                  disabled={isDisabled}
+                />
+              </div>
+              <div >
+                <InputCustom
+                  placeholder="Please enter Name"
+                  id="name"
+                  label="Name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.name}
+                  touched={touched.name}
+                  name="name"
+                  value={values.name}
+                  type='text'
+                />
+              </div>
+              <div >
+                <InputCustom
+                  placeholder="Please enter Balance"
+                  id="balance"
+                  label="Balance"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.balance}
+                  touched={touched.balance}
+                  name="balance"
+                  value={values.balance}
+                  type='number'
+                />
+              </div>
+              <div >
+                <InputCustom
+                  placeholder="Please enter Email"
+                  id="email"
+                  label="Email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.email}
+                  touched={touched.email}
+                  name="email"
+                  value={values.email}
+                  type='text'
+                />
+              </div>
+              <div >
+                <InputCustom
+                  placeholder="Please enter RegisterAt"
+                  id="registerAt"
+                  label="RegisterAt"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.registerAt}
+                  touched={touched.registerAt}
+                  name="registerAt"
+                  value={values.registerAt}
+                  type='text'
+                />
+              </div>
+
+              {/* button */}
+              <div>
+                <button type="submit" className="w-full text-white bg-black border-black  hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-8 ">Update</button>
+              </div>
+            </form>
+          </Modal>
+
+        </div>
+
+
+
       </div> : <div className='my_table relative' >
+        {/* >768 */}
+        {/* search  */}
+        <div className='flex w-[200px] justify-start items-center my_search my-2'>
+          <Input name='' type='' value={valueSearch} className='w-[95%]   h-[38px] bg-gray-200' placeholder='Enter name'
+            onChange={(e) => {
+              setValueSearch(e.target.value)
+            }}
+            onPressEnter={handleSearch}
+          />
+
+          <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-5 ml-1 duration-500"
+            onClick={handleSearch}
+          ><i className="fa-solid fa-magnifying-glass"></i></button>
+
+
+        </div>
+
+
         {/* Table */}
         <Table<DataType>
           columns={columns}
