@@ -1,5 +1,5 @@
 'use client';
-import {  useState } from "react";
+import { useState } from "react";
 import InputCustom from "../components/Input/InputCustom";
 import Link from "next/link";
 let isStopped = false
@@ -10,11 +10,9 @@ export default function Page() {
     const [secondNumber, setSecondNumber] = useState(1);
     const [isProcessing, setIsProcessing] = useState(false);
 
-    const handleSecondChange:React.ChangeEventHandler<HTMLInputElement>  = (e) => {
+    const handleSecondChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setSecondNumber(Number(e.target.value));
     };
-
-
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -26,16 +24,15 @@ export default function Page() {
         if (textareaValue == " ") {
             arrayNumber = []
         }
-
         let dataString: string = ""
 
         // seccond
         const secondNumberClone = secondNumber * 1
+
         // run func
         processWithDelay(arrayNumber, secondNumberClone, (number: number) => {
             dataString += number.toString() + ","
             setData(dataString);
-
         })
             .then(() => {
                 setData((prevData) => `${prevData} Done`);
@@ -46,7 +43,6 @@ export default function Page() {
                 setData(error.message);
                 setIsProcessing(false);
                 isStopped = false;
-
             });
     };
 
@@ -55,7 +51,6 @@ export default function Page() {
         numbersArray: number[],
         delayTime: number,
         onProcess: (number: number) => void,
-
     ): Promise<void> {
         if (!Array.isArray(numbersArray)) {
             return Promise.reject(new Error("First Argument must be Array"));
@@ -77,48 +72,40 @@ export default function Page() {
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 onProcess(numbersArray[i]);
             } else { return }
-
-
         }
-
     }
-
-
 
     return (
         <div className="func">
-            
-                <Link href={"/"} className="flex ">
-                    <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] py-3 px-5 ml-auto mr-8 my-3 text-white duration-500">
-                        Back
-                    </button>
-                </Link>
-
-            
-
+            {/* next link */}
+            <Link href={"/"} className="flex ">
+                <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] py-3 px-5 ml-auto mr-8 my-3 text-white duration-500">
+                    Back
+                </button>
+            </Link>
 
             <form onSubmit={handleSubmit} className="flex flex-col items-center">
+                {/* in put */}
                 <div className="w-[50%] ">
                     <label htmlFor="textArea" className="w-full  font-bold cursor-pointer block">Please enter numbers. (example: 10,25,28,26) </label>
                     <textarea id="textArea" value={textareaValue} onChange={(e) => {
-                      setTextareaValue(e.target.value);
+                        setTextareaValue(e.target.value);
                     }
                     } className="w-full h-[150px] bg-gray-100 border mt-4 p-3" />
                 </div>
 
+                {/* input seccond */}
                 <label htmlFor="second" className="mt-4 font-bold cursor-pointer ">Second Number To Delay (s) </label>
                 <InputCustom id="second" name="second" type="number" value={secondNumber} onChange={handleSecondChange} />
                 <div className="flex w-1/2 justify-center space-x-2 my-2">
-                    <button type="submit" disabled={isProcessing} className={` ${isProcessing?"bg-blue-100":"hover:bg-blue-800  bg-blue-500" } border rounded-[10px] py-3 px-5 duration-500`}>
+                    <button type="submit" disabled={isProcessing} className={` ${isProcessing ? "bg-blue-100" : "hover:bg-blue-800  bg-blue-500"} border rounded-[10px] py-3 px-5 duration-500`}>
                         {isProcessing ? "Processing..." : "Do"}
                     </button>
                     <button type="button" className="bg-red-600 hover:bg-red-800 border rounded-[10px] py-3 px-5 duration-500" onClick={
                         () => {
                             isStopped = true
                         }
-
                     }>Stop</button>
-
                 </div>
                 {/* out put */}
                 <div className="w-[50%] ">
@@ -126,11 +113,6 @@ export default function Page() {
                     <textarea id="outPut" value={data} className="w-full h-[150px] bg-gray-100 border mt-4 p-3" disabled />
                 </div>
             </form>
-
-
-
-
-
         </div>
     );
 }

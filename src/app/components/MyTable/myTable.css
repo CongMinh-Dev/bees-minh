@@ -13,8 +13,6 @@
   left: 4%;
   z-index: 1;
 }
-
-
 .mobile_user {
     width: 100%;
     display: flex;
@@ -40,8 +38,6 @@
     font-size: 13px;
     text-align: right;
   }
-
-
 
 
 @media screen and (max-width:991px) {

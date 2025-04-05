@@ -13,14 +13,12 @@ const useReponsive = (): ResponsiveValues => {
     if (width === undefined) {
       return { isMobile: false, isTablet: false, isDesktop: false };
     }
-
     const mobileBreakpoint = 768;
     const tabletBreakpoint = 992;
-
     const isMobile = width < mobileBreakpoint;
     const isTablet = width >= mobileBreakpoint && width < tabletBreakpoint;
     const isDesktop = width >= tabletBreakpoint;
-
+    
     return { isMobile, isTablet, isDesktop };
   };
 
@@ -33,7 +31,6 @@ const useReponsive = (): ResponsiveValues => {
       const handleWindowSizeChange = () => {
         setScreenWidth(window.innerWidth);
       };
-
       setScreenWidth(window.innerWidth); // Set initial width on client-side
       window.addEventListener('resize', handleWindowSizeChange);
 

@@ -26,9 +26,6 @@ interface LoadingType {
 
 }
 
-
-
-
 const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
   // pagination
   const [pageSize, setPageSize] = useState(10);
@@ -45,17 +42,12 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
   // Table
   ///// data
   const [data, setData] = useState<DataType[]>([])
-
-
   const renderData = () => {
     setIsLoading(true)
     http.get("/todos")
       .then((res) => {
         setData(res.data)
         setIsLoading(false)
-
-
-
       })
       .catch((err) => {
         setIsLoading(false)
@@ -174,13 +166,9 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
     },
   ];
 
-
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDisabled] = useState(true);
-
-
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -188,6 +176,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  
   // //edit 
   const [userDetail, setUserDetail] = useState<DataType>()
   const handelEditUser = async (userId: string) => {
@@ -214,7 +203,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
     }
   }, [userDetail]);
 
-
+  // formik
   const { handleChange, handleSubmit, values, errors, handleBlur, touched, setFieldValue } = useFormik({
     initialValues: {
       id: "",
@@ -262,6 +251,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
 
   })
+
   // Search 
   const [valueSearch, setValueSearch] = useState<string>()
   const handleSearch = () => {
@@ -276,14 +266,9 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
     })
   }
-
-
-
-
   useEffect(() => {
     renderData()
   }, [])
-
 
   return (
     <>
@@ -297,23 +282,20 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             }}
             onPressEnter={handleSearch}
           />
-
           <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-5 ml-1 duration-500"
             onClick={handleSearch}
           ><i className="fa-solid fa-magnifying-glass"></i></button>
-
         </div>
 
-
+        {/* card */}
         <div className="mobile_user flex flex-wrap">
-          {/* card */}
           {data?.map((item) => (
             <Card
               className="card_user"
               title={<h5 className="uppercase">{item.name}</h5>}
               key={item.id}
-
             >
+
               {/* id */}
               <div>
                 <span className="nameCard">ID:</span>
@@ -321,6 +303,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
                   {item.id}
                 </span>
               </div>
+
               {/* balance */}
               <div>
                 <span className="nameCard mr-2">Balance:</span>
@@ -328,11 +311,13 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
                   {item.balance}
                 </span>
               </div>
+
               {/* email */}
               <div>
                 <span className="nameCard mr-2">Email:</span>
                 <span className="contentCard font-bold"> <a href="#" className='text-blue-400 hover:text-blue-700'>{item.email}</a></span>
               </div>
+
               {/* registerAt */}
               <div>
                 <span className="nameCard">RegisterAt:</span>
@@ -342,10 +327,12 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
                   </Tooltip>}
                 </span>
               </div>
+
               {/* active */}
               <div>
                 <span className="nameCard">Active:</span>
                 <span className="contentCard font-bold">
+
                   {/* active---buttion edit */}
                   <Button size="small" className='mr-2 bg-blue-500 text-white  duration-500 border border-blue-500 '
                     onClick={() => {
@@ -357,6 +344,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
                     <i className="fa-solid fa-gear"></i>
                   </Button>
 
+                  {/* active---buttion delete */}
                   <Popconfirm title="Do you want delete?"
                     onConfirm={() => {
                       setIsLoading(true)
@@ -380,10 +368,6 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
                       <i className="fa-solid fa-trash"></i>
                     </Button>
                   </Popconfirm>
-
-
-
-
                 </span>
               </div>
             </Card>
@@ -472,9 +456,6 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
           </Modal>
 
         </div>
-
-
-
       </div> : <div className='my_table relative' >
         {/* >768 */}
         {/* search  */}
@@ -485,14 +466,10 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             }}
             onPressEnter={handleSearch}
           />
-
           <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] border-blue-500 py-[8px] px-5 ml-1 duration-500"
             onClick={handleSearch}
           ><i className="fa-solid fa-magnifying-glass"></i></button>
-
-
         </div>
-
 
         {/* Table */}
         <Table<DataType>
@@ -505,11 +482,11 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
           }}
           virtual scroll={{ y: 560 }}
         />
+
         {/* Pagination */}
         <CustomPagination
           handleSetPage={handlePageSizeChange}  // truyền xuống combonent con để nó thay đổi state(page) ở MyTable
         />
-
 
         {/* Modal */}
         <Modal title="USER" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
@@ -592,12 +569,8 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             </div>
           </form>
         </Modal>
-
-
       </div>}
     </>
-
-
   );
 }
 

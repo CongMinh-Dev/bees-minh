@@ -33,7 +33,6 @@ const InputCustom: React.FC<CustomInputProps> = ({
 }) => {
 
   return (
-    
       <div >
         <label
           htmlFor={id}
@@ -59,8 +58,6 @@ const InputCustom: React.FC<CustomInputProps> = ({
           <p className="text-red-500 text-sm">{error}</p>
         ) : null}
       </div>
-    
-
   );
 };
 

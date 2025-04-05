@@ -18,16 +18,11 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
         setValueInput( Number(e.target.value));
     };
     
-
     const handlePressEnter:React.KeyboardEventHandler<HTMLInputElement>=(e) => {
         if (e.key === 'Enter') {
             handleSetPage(valueInput); 
           }
     }
-    
-
-
-
 
     const items: MenuProps['items'] = [
         {
@@ -54,7 +49,6 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
             onClick: () => {
                 handleSetPage(50)
                 setValueInput(50)
-
             }
 
         },
@@ -64,7 +58,6 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
             onClick: () => {
                 handleSetPage(100)
                 setValueInput(100)
-
             }
 
         },
@@ -86,16 +79,9 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({ handleSetPage }) =>
                     value={valueInput}
                     onPressEnter={handlePressEnter}
                     onChange={handleInputChange}
-
                 />
-
                 <p >/page</p>
-
-
             </Form.Item>
-
-
-
         </Form >
     );
 };
