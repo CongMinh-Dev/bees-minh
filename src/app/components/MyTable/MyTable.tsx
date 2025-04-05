@@ -206,12 +206,14 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       )
   }
   useEffect(() => {
-    userDetail && setFieldValue("id", userDetail.id);
-    userDetail && setFieldValue("name", userDetail.name);
-    userDetail && setFieldValue("balance", userDetail.balance);
-    userDetail && setFieldValue("email", userDetail.email);
-    const registerAtString = moment(userDetail && userDetail.registerAt).format('yyyy/MM/DD')
-    userDetail && setFieldValue("registerAt", registerAtString);
+    if (userDetail) {
+      setFieldValue("id", userDetail.id);
+      setFieldValue("name", userDetail.name);
+      setFieldValue("balance", userDetail.balance);
+      setFieldValue("email", userDetail.email);
+      const registerAtString = moment(userDetail.registerAt).format('yyyy/MM/DD');
+      setFieldValue("registerAt", registerAtString);
+    }
   }, [userDetail]);
 
 
