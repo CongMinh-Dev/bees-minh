@@ -20,18 +20,18 @@ Vercel deployment : https://bees-minh146.vercel.app/
 Can test in my link vercel: https://bees-minh146.vercel.app/  
 
 Or run the development server by step:  
-1/ Clone my project:
+1. Clone my project:
 ```bash
 git clone https://github.com/CongMinh-Dev/bees-minh.git
 ```
-2/ install:
+2. install:
 ```bash
 npm i
 # or
 yarn install
 ```
 
-3/ run the development server:
+3.  run the development server:
 ```bash
 npm run dev
 # or
