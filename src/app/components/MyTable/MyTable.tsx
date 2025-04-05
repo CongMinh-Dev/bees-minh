@@ -236,6 +236,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
         if (AllEmailArray.indexOf(values.email) == -1) {
           http.post("/todos", itemClone)
             .then(() => {
+              setIsAddUser(false)
               setIsModalOpen(false)
               setIsDisabled(true)
               renderData()
@@ -247,6 +248,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
             .catch((err) => {
               setIsDisabled(true)
               setIsLoading(false)
+              setIsAddUser(false)
               toast("Add Fail", {
                 className: 'bg-red-300 text-white',
               })
