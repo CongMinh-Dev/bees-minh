@@ -7,8 +7,8 @@ React Toastify for displaying success or failure notifications for user actions.
 
 ## Link:
 
-GitHub :            https://github.com/CongMinh-Dev/bees-minh.git
-Vercel deployment : https://bees-minh146.vercel.app/
+GitHub :            https://github.com/CongMinh-Dev/bees-minh.git  
+Vercel deployment : https://bees-minh146.vercel.app/  
 
 ## Implementation Approach:
 1. Requirement Analysis: Read through all the requirements to understand the overall functionalities, user interface, and specifications to choose appropriate frameworks and libraries.
@@ -17,9 +17,9 @@ Vercel deployment : https://bees-minh146.vercel.app/
 
 
 ## Getting Started
-Can test in my link vercel: https://bees-minh146.vercel.app/
+Can test in my link vercel: https://bees-minh146.vercel.app/  
 
-Or run the development server by step:
+Or run the development server by step:  
 1/ Clone my project:
 ```bash
 git clone https://github.com/CongMinh-Dev/bees-minh.git
