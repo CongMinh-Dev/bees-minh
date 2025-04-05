@@ -102,7 +102,7 @@ export default function Page() {
 
             <form onSubmit={handleSubmit} className="flex flex-col items-center">
                 <div className="w-[50%] ">
-                    <label htmlFor="textArea" className="w-full mt-4 font-bold cursor-pointer block">Please enter numbers. (example: 10,25,28,26) </label>
+                    <label htmlFor="textArea" className="w-full  font-bold cursor-pointer block">Please enter numbers. (example: 10,25,28,26) </label>
                     <textarea id="textArea" value={textareaValue} onChange={(e) => {
                       setTextareaValue(e.target.value);
                     }
@@ -113,7 +113,7 @@ export default function Page() {
                 <InputCustom id="second" name="second" type="number" value={secondNumber} onChange={handleSecondChange} />
                 <div className="flex w-1/2 justify-center space-x-2 my-2">
                     <button type="submit" disabled={isProcessing} className={` ${isProcessing?"bg-blue-100":"hover:bg-blue-800  bg-blue-500" } border rounded-[10px] py-3 px-5 duration-500`}>
-                        {isProcessing ? "In Processing..." : "Do"}
+                        {isProcessing ? "Processing..." : "Do"}
                     </button>
                     <button type="button" className="bg-red-600 hover:bg-red-800 border rounded-[10px] py-3 px-5 duration-500" onClick={
                         () => {
