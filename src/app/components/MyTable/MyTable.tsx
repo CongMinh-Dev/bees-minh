@@ -372,7 +372,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
               {/* registerAt */}
               <div>
-                <span className="nameCard">RegisterAt:</span>
+                <span className="nameCard">Registertration:</span>
                 <span className="contentCard font-bold">
                   {<Tooltip title={moment.utc(item.registerAt).format('HH:mm:ss')}>
                     {moment(item.registerAt).format('yyyy/MM/DD')}
