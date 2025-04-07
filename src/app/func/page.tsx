@@ -2,6 +2,8 @@
 import { useState } from "react";
 import InputCustom from "../components/Input/InputCustom";
 import Link from "next/link";
+import { ToastContainer } from "react-toastify";
+import { toast } from 'react-toastify';
 let isStopped = false
 
 export default function Page() {
@@ -19,7 +21,6 @@ export default function Page() {
         isStopped = false
         setIsProcessing(true);
         setData("");
-        console.log(textareaValue)
         let arrayNumber = textareaValue.split(",").map((item) => Number(item.trim()));
         if (textareaValue == " ") {
             arrayNumber = []
@@ -39,7 +40,10 @@ export default function Page() {
                 setIsProcessing(false);
             })
             .catch((error) => {
-                console.error("Error:", error.message);
+                toast(error.message, {
+                    className: 'bg-red-300 text-white',
+                  })
+                console.error(error);
                 setData(error.message);
                 setIsProcessing(false);
                 isStopped = false;
@@ -77,6 +81,7 @@ export default function Page() {
 
     return (
         <div className="func">
+            <ToastContainer autoClose={2000} />
             {/* next link */}
             <Link href={"/"} className="flex ">
                 <button className="bg-blue-500 hover:bg-blue-800 border rounded-[10px] py-3 px-5 ml-auto mr-8 my-3 text-white duration-500">
