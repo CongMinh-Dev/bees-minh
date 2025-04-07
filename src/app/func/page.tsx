@@ -73,7 +73,7 @@ export default function Page() {
         }
         for (let i = 0; i < numbersArray.length; i++) {
             if (isStopped == false) {
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await new Promise(resolve => setTimeout(resolve, delayTime*1000));
                 onProcess(numbersArray[i]);
             } else { return }
         }

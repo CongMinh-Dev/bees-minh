@@ -167,6 +167,16 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
       ),
     },
   ];
+  useEffect(() => {
+    return () => {
+      let count = 0
+      http.get(`fruit/1`).then((res) => {
+        count = res.data.count + 1
+        http.put(`/fruit/1`, { id: 1, count })
+      })
+    }
+  }
+  )
 
   // Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
