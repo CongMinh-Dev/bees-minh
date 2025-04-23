@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 import { Input, Form } from 'antd';
 import { useState } from 'react';
 import "./customPagination.css"

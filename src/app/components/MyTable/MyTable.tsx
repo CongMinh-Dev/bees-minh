@@ -601,7 +601,7 @@ const MyTable: React.FC<LoadingType> = ({ setIsLoading }) => {
 
             {/* button */}
             <div>
-              <button type="submit" className="w-full text-white bg-black border-black  hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-8 ">Update</button>
+            <button type="submit" className="w-full text-white bg-black border-black  hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-8 ">{isAddUser ? "Add" : "Update"} </button>
             </div>
           </form>
         </Modal>
